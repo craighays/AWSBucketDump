@@ -51,6 +51,25 @@ After building this tool, I did find an [interesting article](https://community.
   
      python AWSBucketDump.py -l BucketNames.txt -g interesting_Keywords.txt -D -m 500000 -d 1
 
+## Generating wordlists
+
+kali > crunch <min> <max> -f charset s3 -o <output filename>
+
+## Patterns in responses
+<Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message>
+<Error><Code>InvalidBucketName</Code><Message>The specified bucket is not valid.</Message>
+<Error><Code>AccessDenied</Code><Message>Access Denied</Message>
+<Error><Code>AllAccessDisabled</Code><Message>All access to this object has been disabled</Message> 
+
+## Naming rules
+S3 URLs use the format http://bucketname.s3.amazonaws.com . If we replace bucketname with random strings that meet the following rules it is possible to see if buckets exist. Feed this tool with a wordlist of your choice and you're good to go.
+
+Rules from https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
+- Bucket names must be at least 3 and no more than 63 characters long.
+- Bucket names must be a series of one or more labels. Adjacent labels are separated by a single period (.). Bucket names can contain lowercase letters, numbers, and hyphens. Each label must start and end with a lowercase letter or a number.
+- Bucket names must not be formatted as an IP address (for example, 192.168.5.4).
+- When using virtual hosted–style buckets with SSL, the SSL wildcard certificate only matches buckets that do not contain periods. To work around this, use HTTP or write your own certificate verification logic. We recommend that you do not use periods (".") in bucket names.
+
 ### Contributors
 
 [jordanpotti](https://github.com/jordanpotti)
