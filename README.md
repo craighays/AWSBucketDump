@@ -50,7 +50,7 @@ After building this tool, I did find an [interesting article](https://community.
       -m MAXSIZE    Maximum file size to download.
       -b            Write list of open buckets to openbuckets.txt only - don't look at contents.
   
-     python AWSBucketDump.py -l BucketNames.txt -g interesting_Keywords.txt -D -m 500000 -d 1
+     python3 AWSBucketDump.py -d False -l <wordlistfile> -g grepfile.txt -b
 
 ## Generating wordlists
 
