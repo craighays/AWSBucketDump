@@ -53,13 +53,14 @@ After building this tool, I did find an [interesting article](https://community.
 
 ## Generating wordlists
 
-kali > crunch <min> <max> -f charset s3 -o <output filename>
+```kali > crunch <min> <max> -f charset s3 -o <output filename>```
 
 ## Patterns in responses
-<Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message>
+```<Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message>
 <Error><Code>InvalidBucketName</Code><Message>The specified bucket is not valid.</Message>
 <Error><Code>AccessDenied</Code><Message>Access Denied</Message>
-<Error><Code>AllAccessDisabled</Code><Message>All access to this object has been disabled</Message> 
+<Error><Code>AllAccessDisabled</Code><Message>All access to this object has been disabled</Message>
+```
 
 ## Naming rules
 S3 URLs use the format http://bucketname.s3.amazonaws.com . If we replace bucketname with random strings that meet the following rules it is possible to see if buckets exist. Feed this tool with a wordlist of your choice and you're good to go.
