@@ -76,7 +76,17 @@ Rules from https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.ht
 - Bucket names must not be formatted as an IP address (for example, 192.168.5.4).
 - When using virtual hosted–style buckets with SSL, the SSL wildcard certificate only matches buckets that do not contain periods. To work around this, use HTTP or write your own certificate verification logic. We recommend that you do not use periods (".") in bucket names.
 
+## Outputs
+
+The script will produce the following three output files in the directory you run the script.
+
+bucket404.txt - buckets not found
+bucket403.txt - buckets found but access denied
+openbucket.txt - buckets found and content listing enabled
+
 ### Contributors
+
+[craighays](https://github.com/craighays)
 
 [jordanpotti](https://github.com/jordanpotti)
 
