@@ -31,11 +31,16 @@ arguments = None
 def fetch(url):
     print('Fetching ' + url + '...')
     response = requests.get(url)
-    if response.status_code == 403 or response.status_code == 404:
-        status403(url)
+    if response.status_code == 404:
+        write_bucket404_file(url) 
+    if response.status_code == 403:
+        write_bucket403_file(url) 
+        #status403(url)
     if response.status_code == 200:
         if "Content" in response.text:
-            returnedList=status200(response,grep_list,url)
+            write_openbucket_file(url)
+            if not arguments.bucketonly:
+                returnedList=status200(response,grep_list,url)
 
 
 def bucket_worker():
@@ -102,6 +107,58 @@ def write_interesting_file(filepath):
             interesting_file.write('\n'.encode('utf-8'))
     finally:
         release_interesting_file_lock()
+
+openbucket_file_lock = Lock()
+def get_openbucket_file_lock():
+    openbucket_file_lock.acquire()
+
+def release_openbucket_file_lock():
+    openbucket_file_lock.release()
+
+
+def write_openbucket_file(bucketname):
+    try:
+        get_openbucket_file_lock()
+        with open('openbucket.txt', 'ab+') as openbucket_file:
+            openbucket_file.write(bucketname.encode('utf-8'))
+            openbucket_file.write('\n'.encode('utf-8'))
+    finally:
+        release_openbucket_file_lock()
+
+
+bucket404_file_lock = Lock()
+def get_bucket404_file_lock():
+    bucket404_file_lock.acquire()
+
+def release_bucket404_file_lock():
+    bucket404_file_lock.release()
+
+
+def write_bucket404_file(bucketname):
+    try:
+        get_bucket404_file_lock()
+        with open('bucket404.txt', 'ab+') as bucket404_file:
+            bucket404_file.write(bucketname.encode('utf-8'))
+            bucket404_file.write('\n'.encode('utf-8'))
+    finally:
+        release_bucket404_file_lock()
+
+bucket403_file_lock = Lock()
+def get_bucket403_file_lock():
+    bucket403_file_lock.acquire()
+
+def release_bucket403_file_lock():
+    bucket403_file_lock.release()
+
+
+def write_bucket403_file(bucketname):
+    try:
+        get_bucket403_file_lock()
+        with open('bucket403.txt', 'ab+') as bucket403_file:
+            bucket403_file.write(bucketname.encode('utf-8'))
+            bucket403_file.write('\n'.encode('utf-8'))
+    finally:
+        release_bucket403_file_lock()
     
 
 
@@ -184,6 +241,7 @@ def main():
     parser.add_argument("-g", dest="grepwords", required=False, help="Provide a wordlist to grep for.")
     parser.add_argument("-m", dest="maxsize", type=int, required=False, default=1024, help="Maximum file size to download.")
     parser.add_argument("-t", dest="threads", type=int, required=False, default=1, help="Number of threads.")
+    parser.add_argument("-b", dest="bucketonly", required=False, action="store_true", default=False, help="List open buckets only")
 
     if len(sys.argv) == 1:
         print_banner()

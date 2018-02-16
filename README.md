@@ -48,12 +48,17 @@ After building this tool, I did find an [interesting article](https://community.
       -l HOSTLIST
       -g GREPWORDS  Provide a wordlist to grep for
       -m MAXSIZE    Maximum file size to download.
+      -b            Write list of open buckets to openbuckets.txt only - don't look at contents.
   
      python AWSBucketDump.py -l BucketNames.txt -g interesting_Keywords.txt -D -m 500000 -d 1
 
 ## Generating wordlists
 
 ```kali > crunch <min> <max> -f charset s3 -o <output filename>```
+
+stripping out invalid line starts and ends
+
+sed '/^\./ d' <filename> | sed "/\.$/d" | sed '/^-/ d' | sed "/-$/d"
 
 ## Patterns in responses
 ```<Error><Code>NoSuchBucket</Code><Message>The specified bucket does not exist</Message>
